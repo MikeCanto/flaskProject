@@ -20,8 +20,8 @@ app.secret_key = 'mysecretkey'
 def Index():  # put application's code here
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM alumnos')
-    data = cur.fetchall()
-    return render_template('index.html', alumnos=data)
+    data = cur.fetchall()  # Se obtienen todos los alumnos con sus datos
+    return render_template('index.html', alumnos=data)  # Se envian a "index.html"
 
 
 @app.route('/add_contact', methods=['POST'])
@@ -38,21 +38,21 @@ def add_contact():  # El boton de envio llama a este metodo
             (id_alu, nombre_alu, ape_p_alu, ape_m_alu, promedio))
         mysql.connection.commit()  # Se envia el query
         flash('Alumno agregado')  # Envia mensaje index.html
-        return redirect(url_for('Index'))  # Te regresa al metodo Index -> index.html
+        return redirect(url_for('Index'))  # Te regresa al metodo Index -> "index.html"
 
 
 @app.route('/edit/<id_alu>')
 def get_alumno(id_alu):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM alumnos WHERE id_alu = {0}'.format(id_alu))
-    data = cur.fetchall()
-    return render_template('edit-alumno.html', alumno=data[0])
+    data = cur.fetchall()  # Se obtienen los datos del alumno
+    return render_template('edit-alumno.html', alumno=data[0])  # Se envian los datos del alumno a "edit-alumno.html"
 
 
 @app.route('/update/<id_alu>', methods=['POST'])
 def update_alumno(id_alu):
     if request.method == 'POST':
-        nombre_alu = request.form['nombre_alu']
+        nombre_alu = request.form['nombre_alu']  # Se reciben los datos del "edit_alumno.html"
         ape_p_alu = request.form['ape_p_alu']
         ape_m_alu = request.form['ape_m_alu']
         promedio = request.form['promedio']
@@ -64,8 +64,8 @@ def update_alumno(id_alu):
                 ape_m_alu = %s,
                 promedio = %s
             WHERE id_alu = %s 
-        """, (nombre_alu, ape_p_alu, ape_m_alu, promedio, id_alu))
-        mysql.connection.commit()
+        """, (nombre_alu, ape_p_alu, ape_m_alu, promedio, id_alu))  # Se envia la query para actualizar
+        mysql.connection.commit()  # Se comitea
         flash('Alumno actualizado')
         return redirect(url_for('Index'))
 

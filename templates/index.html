@@ -18,6 +18,8 @@
     {% endif %}
 {% endwith %}
 
+<!-- Se despliega "agregar alumnos" -->
+
 <form action="/add_contact" method="POST">
     <input type="text" name="id_alu" placeholder="ID">
     <input type="text" name="nombre_alu" placeholder="Nombre">
@@ -28,6 +30,8 @@
         Save
     </button>
 </form>
+
+<!-- Se despliegan los alumnos y su informacion -->
 
 <table>
     <thead>

@@ -5,14 +5,14 @@
     <title>Editar alumno</title>
 </head>
 <body>
-<form action="/update/{{ alumno.0 }}" method="POST">
+<form action="/update/{{ alumno.0 }}" method="POST">  <!-- Se despliega el alumno y su informacion-->
     <input type="text" name="nombre_alu" placeholder="Nombre" value="{{ alumno.1 }}">
     <input type="text" name="ape_p_alu" placeholder="Apellido paterno" value="{{ alumno.2 }}">
     <input type="text" name="ape_m_alu" placeholder="Apellido materno" value="{{ alumno.3 }}">
     <input type="text" name="promedio" placeholder="Promedio en el semestre" value="{{ alumno.4 }}">
     <button type="submit">
         Save
-    </button>
+    </button> <!-- Se envian los cambios a "/update/ + id_alu"-->
 </form>
 
 </body>
