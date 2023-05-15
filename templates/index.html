@@ -1,61 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Python_Flask_Mysql</h1>
+{% extends 'layout.html' %}
 
-</body>
-</html>
+{% block body %}
 
-{% with messages = get_flashed_messages() %} <!-- Se recibe el mensaje flash y se asigna a "messages" -->
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
-<!-- Se despliega "agregar alumnos" -->
-
-<form action="/add_contact" method="POST">
-    <input type="text" name="id_alu" placeholder="ID">
-    <input type="text" name="nombre_alu" placeholder="Nombre">
-    <input type="text" name="ape_p_alu" placeholder="Apellido paterno">
-    <input type="text" name="ape_m_alu" placeholder="Apellido materno">
-    <input type="text" name="promedio" placeholder="Promedio en el semestre">
-    <button type="submit">
-        Save
-    </button>
-</form>
-
-<!-- Se despliegan los alumnos y su informacion -->
-
-<table>
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>Nombre</td>
-            <td>Apellido paterno</td>
-            <td>Apellido materno</td>
-            <td>Promedio</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for alumno in alumnos %}
-            <tr>
-                <td>{{ alumno.0 }}</td>
-                <td>{{ alumno.1 }}</td>
-                <td>{{ alumno.2 }}</td>
-                <td>{{ alumno.3 }}</td>
-                <td>{{ alumno.4 }}</td>
-                <td>
-                    <a href="/edit/{{ alumno.0 }}">Editar</a>
-                    <a href="/delete/{{ alumno.0 }}">Eliminar</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="row">
+        <div class="col-md-5">
+            {% with messages = get_flashed_messages() %} <!-- Se recibe el mensaje flash y se asigna a "messages" -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <p>{{ message }}</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="card card-body">
+                <!-- Se despliega "agregar alumnos" -->
+                <form action="/add_contact" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="id_alu" placeholder="ID" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nombre_alu" placeholder="Nombre" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="ape_p_alu" placeholder="Apellido paterno" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="ape_m_alu" placeholder="Apellido materno" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="promedio" placeholder="Promedio en el semestre" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <table class="table table-striped table-bordered bg-white table-sm">
+                <!-- Se despliegan los alumnos y su informacion -->
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nombre</td>
+                        <td>Apellido paterno</td>
+                        <td>Apellido materno</td>
+                        <td>Promedio</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alumno in alumnos %}
+                        <tr>
+                            <td>{{ alumno.0 }}</td>
+                            <td>{{ alumno.1 }}</td>
+                            <td>{{ alumno.2 }}</td>
+                            <td>{{ alumno.3 }}</td>
+                            <td>{{ alumno.4 }}</td>
+                            <td>
+                                <a href="/edit/{{ alumno.0 }}" class="btn btn-secondary">Editar</a>
+                                <a href="/delete/{{ alumno.0 }}" class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
