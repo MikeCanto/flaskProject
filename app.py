@@ -46,8 +46,28 @@ def get_alumno(id_alu):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM alumnos WHERE id_alu = {0}'.format(id_alu))
     data = cur.fetchall()
-    print(data)
-    return 'recibido'
+    return render_template('edit-alumno.html', alumno=data[0])
+
+
+@app.route('/update/<id_alu>', methods=['POST'])
+def update_alumno(id_alu):
+    if request.method == 'POST':
+        nombre_alu = request.form['nombre_alu']
+        ape_p_alu = request.form['ape_p_alu']
+        ape_m_alu = request.form['ape_m_alu']
+        promedio = request.form['promedio']
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            UPDATE alumnos
+            SET nombre_alu = %s,
+                ape_p_alu = %s,
+                ape_m_alu = %s,
+                promedio = %s
+            WHERE id_alu = %s 
+        """, (nombre_alu, ape_p_alu, ape_m_alu, promedio, id_alu))
+        mysql.connection.commit()
+        flash('Alumno actualizado')
+        return redirect(url_for('Index'))
 
 
 @app.route('/delete/<string:id_alu>')
