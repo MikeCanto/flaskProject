@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_mysqldb import MySQL
 
+
 app = Flask(__name__)
 
 # AQUI SE CONECTA A LA BASE DE DATOS
@@ -21,7 +22,21 @@ def Index():  # put application's code here
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM alumnos')
     data = cur.fetchall()  # Se obtienen todos los alumnos con sus datos
+    flash('Reprobados: ' + reprobados())
     return render_template('index.html', alumnos=data)  # Se envian a "index.html"
+
+def reprobados():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM alumnos')
+    lista = cur.fetchall()
+    print('Total rows are: ' ,len(lista))
+    nreprobados = 0
+    for row in lista:
+        if row[4] < 60:
+            nreprobados += 1
+    return str(nreprobados)
+
+
 
 
 @app.route('/add_contact', methods=['POST'])
